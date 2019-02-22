@@ -10,6 +10,8 @@ definition_info = HTTP.get("https://api.wordnik.com/v4/word.json/#{query}/defini
 
 example_info = HTTP.get("https://api.wordnik.com/v4/word.json/#{query}/examples?includeDuplicates=false&useCanonical=false&limit=5&api_key=#{apikey}")
 
+pronunciation_info = HTTP.get("https://api.wordnik.com/v4/word.json/#{query}/pronunciations?useCanonical=false&limit=50&api_key=#{apikey}")
+
 word = definition_info.parse[0]["word"]
 
 definition = []
@@ -18,10 +20,12 @@ definition_info.parse.each do |define|
   definition << define["text"]
 end
 
+pronunciation = pronunciation_info.parse[0]["raw"]
+
 
 part_of_speech = definition_info.parse[0]["partOfSpeech"]
 
-puts "#{word} (#{part_of_speech}):"
+puts "#{word} (#{part_of_speech}): #{pronunciation}"
 
 i = 1
 definition.each do |text|
